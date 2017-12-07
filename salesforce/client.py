@@ -18,6 +18,7 @@ class Client(object):
             version = version[1:]
         self.version = version
         self.access_token = None
+        self._refresh_token = None
         self.resource_urls = {}
 
     def _get_resource_url(self, name):
@@ -30,7 +31,12 @@ class Client(object):
         return self.resource_urls.get(name, None)
 
     def set_access_token(self, token):
-        self.access_token = token['access_token']
+        if isinstance(token, dict):
+            self.access_token = token['access_token']
+            if 'refresh_token' in token:
+                self._refresh_token = token['refresh_token']
+        else:
+            self.access_token = token
 
     def authorization_url(self, redirect_uri):
         params = {
@@ -52,11 +58,13 @@ class Client(object):
         }
         return self._request('POST', self.SALESFORCE_REQUEST_TOKEN_URL, data=data, headers=headers)
 
-    def extend_token(self, refresh_token):
+    def refresh_token(self):
+        if not self._refresh_token:
+            return None
         headers = {'Content-Type': 'application/x-www-form-urlencoded'}
         data = {
             'grant_type': 'refresh_token',
-            'refresh_token': unquote(refresh_token),
+            'refresh_token': unquote(self._refresh_token),
             'client_id': self.client_id,
             'client_secret': self.client_secret
         }
@@ -146,8 +154,6 @@ class Client(object):
         return self._parse(requests.request(method, url, headers=_headers, **kwargs))
 
     def _parse(self, response):
-        print(response.status_code)
-        print(response.text)
         status_code = response.status_code
         if status_code == 200 or status_code == 201:
             return response.json()
