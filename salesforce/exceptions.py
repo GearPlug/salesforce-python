@@ -12,3 +12,7 @@ class AccessTokenRequired(BaseError):
 
 class BadOAuthTokenError(BaseError):
     pass
+
+
+class BadRequestError(BaseError):
+    pass
