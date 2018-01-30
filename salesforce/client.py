@@ -110,6 +110,10 @@ class Client(object):
         url = self.rest_url + 'tooling/sobjects/ApexClass'
         return self._request('POST', url, json=data)
 
+    def delete_apex_class(self, apex_class_id):
+        url = self.rest_url + 'tooling/sobjects/ApexClass/{}'.format(apex_class_id)
+        return self._request('DELETE', url)
+
     def create_remote_site(self, name, url):
         data = '<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><env:Header><urn:SessionHeader xmlns:urn="http://soap.sforce.com/2006/04/metadata"><urn:sessionId>{sessionId}</urn:sessionId></urn:SessionHeader></env:Header><env:Body><createMetadata xmlns="http://soap.sforce.com/2006/04/metadata"><metadata xsi:type="RemoteSiteSetting"><fullName>{name}</fullName><isActive>true</isActive><url>{url}</url></metadata></createMetadata></env:Body></env:Envelope>'
         data = data.replace('{name}', name).replace('{url}', url).replace('{sessionId}', self.access_token)
@@ -130,6 +134,10 @@ class Client(object):
         }
         url = self.rest_url + 'tooling/sobjects/ApexTrigger'
         return self._request('POST', url, json=data)
+
+    def delete_apex_trigger(self, apex_trigger_id):
+        url = self.rest_url + 'tooling/sobjects/ApexTrigger/{}'.format(apex_trigger_id)
+        return self._request('DELETE', url)
 
     def _get(self, url, **kwargs):
         return self._request('GET', url, **kwargs)
