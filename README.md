@@ -4,7 +4,7 @@ salesforce-python is an API wrapper for Sales written in Python
 
 ## Installing
 ```
-pip install git+git://github.com/GearPlug/salesforce-python.git
+pip install salesforce-python
 ```
 
 ## Usage
