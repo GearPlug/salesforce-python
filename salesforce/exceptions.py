@@ -16,3 +16,7 @@ class BadOAuthTokenError(BaseError):
 
 class BadRequestError(BaseError):
     pass
+
+
+class TokenError(BaseError):
+    pass

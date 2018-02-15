@@ -1,6 +1,6 @@
 import requests
 from salesforce.decorators import access_token_required
-from salesforce.exceptions import UnknownError, BadOAuthTokenError, BadRequestError
+from salesforce.exceptions import UnknownError, BadOAuthTokenError, BadRequestError, TokenError
 from urllib.parse import unquote, urlencode
 
 
@@ -162,16 +162,19 @@ class Client(object):
         return self._parse(requests.request(method, url, headers=_headers, **kwargs))
 
     def _parse(self, response):
-        content_type = response.headers.get('Content-Type', None)
         status_code = response.status_code
-        if status_code == 200 or status_code == 201:
-            if content_type and 'application/json' in content_type:
-                return response.json()
-            return response.text
+        if 'application/json' in response.headers['Content-Type']:
+            r = response.json()
+        else:
+            r = response.text
+        if status_code in (200, 201):
+            return r
         if status_code == 204:
             return None
         if status_code == 400:
-            raise BadRequestError()
+            raise BadRequestError(r)
+        if status_code == 401:
+            raise TokenError(r)
         if status_code == 403:
-            raise BadOAuthTokenError()
-        raise UnknownError()
+            raise BadOAuthTokenError(r)
+        raise UnknownError(r)
