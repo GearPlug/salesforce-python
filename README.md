@@ -1,6 +1,6 @@
 # salesforce-python
 
-salesforce-python is an API wrapper for Sales written in Python
+salesforce-python is an API wrapper for Salesforce written in Python
 
 ## Installing
 ```
@@ -69,6 +69,47 @@ Get an object described
 ```
 metadata = client.get_sobject_describe('Lead')
 ```
+
+## Webhook
+In order to create a webhook in Salesforce we need to create an APEX Class, Remote Site and Apex Trigger.
+
+Create the APEX Class
+```
+In this example we are going to read the apex_class.txt file in the files folder included in this repository:
+
+with open(os.path.join('/path/to/apex_class.txt'), 'r') as file:
+    body = file.read()
+
+response = client.create_apex_class('WebhookClass', body)
+```
+
+Create the Remote Site
+```
+URL is a string with the domain of your site:
+
+url = 'https://mywebsite.com/'
+response = client.create_remote_site('RemoteSiteSetting', url)
+```
+
+Create the APEX Trigger
+```
+To create the Trigger, we are going to read the apex_trigger.txt file and replace some values.
+
+with open(os.path.join('/path/to/apex_trigger.txt'), 'r') as file:
+    body = file.read()
+
+sobject = 'User'
+event = 'after insert'
+url = 'https://mywebsite.com/notification_url/' #This is the domain url + your webhook path
+
+body = body.replace('{sobject}', sobject)
+body = body.replace('{events}', event)
+body = body.replace('{url}', "'" + url + "'")
+
+response = client.create_apex_trigger('WebhookTrigger', body, sobject')
+```
+
+That's all, you should receive notifications every time you create a new user in your Salesforce dashboard.
 
 ## Requirements
 - requests

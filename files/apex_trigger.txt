@@ -1,0 +1,9 @@
+trigger WebhookTrigger on {sobject} ({events}) {
+
+    String url = {url};
+
+    String content = Webhook.jsonContent(Trigger.new, Trigger.old);
+
+    Webhook.callout(url, content);
+
+}
