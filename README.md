@@ -11,7 +11,7 @@ pip install salesforce-python
 ```
 from salesforce.client import Client
 
-client = Client('CLIENT_KEY', 'CLIENT_SECRET', 'https://na50.salesforce.com/', 'v41.0')
+client = Client('CLIENT_KEY', 'CLIENT_SECRET', 'https://na50.salesforce.com/', 'v41.0') # Host must have trailing slash
 ```
 
 Get authorization url
@@ -70,7 +70,7 @@ Get an object described
 metadata = client.get_sobject_describe('Lead')
 ```
 
-## Webhook
+### Webhooks
 In order to create a webhook in Salesforce we need to create an APEX Class, Remote Site and Apex Trigger.
 
 Create the APEX Class
@@ -106,7 +106,7 @@ body = body.replace('{sobject}', sobject)
 body = body.replace('{events}', event)
 body = body.replace('{url}', "'" + url + "'")
 
-response = client.create_apex_trigger('WebhookTrigger', body, sobject')
+response = client.create_apex_trigger('WebhookTrigger', body, sobject)
 ```
 
 That's all, you should receive notifications every time you create a new user in your Salesforce dashboard.
