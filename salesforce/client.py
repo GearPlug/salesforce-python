@@ -9,7 +9,7 @@ class Client(object):
     SALESFORCE_REQUEST_TOKEN_URL = 'https://login.salesforce.com/services/oauth2/token'
     SALESFORCE_AUTHORIZE_URL = 'https://login.salesforce.com/services/oauth2/authorize'
 
-    def __init__(self, client_id, client_secret, instance_url, version):
+    def __init__(self, client_id, client_secret, version, instance_url=None):
         self.client_id = client_id
         self.client_secret = client_secret
         self.instance_url = self.BASE_URL.format(instance_url)
