@@ -5,7 +5,7 @@ from urllib.parse import unquote, urlencode
 
 
 class Client(object):
-    BASE_URL = '{}services/data/'
+    BASE_URL = '{}/services/data/'
     SALESFORCE_REQUEST_TOKEN_URL = 'https://login.salesforce.com/services/oauth2/token'
     SALESFORCE_AUTHORIZE_URL = 'https://login.salesforce.com/services/oauth2/authorize'
 
