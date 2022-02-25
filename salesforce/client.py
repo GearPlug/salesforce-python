@@ -163,14 +163,14 @@ class Client(object):
 
     def _parse(self, response):
         status_code = response.status_code
-        if 'application/json' in response.headers['Content-Type']:
+        if 'Content-Type' in response.headers and 'application/json' in response.headers['Content-Type']:
             r = response.json()
         else:
             r = response.text
         if status_code in (200, 201):
             return r
         if status_code == 204:
-            return None
+            return r
         if status_code == 400:
             raise BadRequestError(r)
         if status_code == 401:
