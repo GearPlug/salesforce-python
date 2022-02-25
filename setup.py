@@ -7,7 +7,7 @@ def read(fname):
 
 
 setup(name='salesforce-python',
-      version='0.3.2',
+      version='0.3.3',
       description='API wrapper for Salesforce written in Python',
       long_description=read('README.md'),
       url='https://github.com/GearPlug/salesforce-python',
