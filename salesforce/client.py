@@ -163,18 +163,19 @@ class Client(object):
 
     def _parse(self, response):
         status_code = response.status_code
-        if 'application/json' in response.headers['Content-Type']:
-            r = response.json()
-        else:
-            r = response.text
+        r = response.text
+        try:
+            if 'application/json' in response.headers['Content-Type']:
+                r = response.json()
+        except:
+            pass
         if status_code in (200, 201):
             return r
         if status_code == 204:
-            return None
+            return r
         if status_code == 400:
             raise BadRequestError(r)
         if status_code == 401:
             raise TokenError(r)
         if status_code == 403:
             raise BadOAuthTokenError(r)
-        raise UnknownError(r)
