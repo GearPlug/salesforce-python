@@ -101,6 +101,10 @@ class Client(object):
     def get_sobject_describe(self, sobject):
         return self._get(self.rest_url + 'sobjects/{}/describe/'.format(sobject))
 
+    @access_token_required
+    def get_sobject_record(self, sobject, record_id):
+        return self._get(self.rest_url + 'sobjects/{}/{}'.format(sobject, record_id))
+
     def create_apex_class(self, name, body):
         data = {
             'ApiVersion': self.version,
