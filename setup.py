@@ -7,7 +7,7 @@ def read(fname):
 
 
 setup(name='salesforce-python',
-      version='0.3.3',
+      version='0.3.4',
       description='API wrapper for Salesforce written in Python',
       long_description=read('README.md'),
       long_description_content_type="text/markdown",
